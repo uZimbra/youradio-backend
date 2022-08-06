@@ -21,8 +21,8 @@ class MusicRepositoryInMemory implements IMusicRepository {
     return music;
   }
 
-  listAll(): Promise<Music[]> {
-    throw new Error("Method not implemented.");
+  async listAll(): Promise<Music[]> {
+    return this.musics;
   }
 
   find(id: string): Promise<Music> {

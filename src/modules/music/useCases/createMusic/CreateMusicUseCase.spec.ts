@@ -1,17 +1,18 @@
 import { ICreateMusicDTO } from "@modules/music/dtos/ICreateMusicDTO";
+import { Music } from "@modules/music/infra/typeorm/entities/Music";
 import { MusicRepositoryInMemory } from "@modules/music/infra/typeorm/repositories/in-memory/MusicRepositoryInMemory";
 import { IMusicRepository } from "@modules/music/repositories/IMusicRepository";
-import { CreateMusicUseCase } from "./CreateMusicUseCase";
 import { randomBytes } from "crypto";
-import { Music } from "@modules/music/infra/typeorm/entities/Music";
+
+import { CreateMusicUseCase } from "./CreateMusicUseCase";
 
 let repository: IMusicRepository;
 let useCase: CreateMusicUseCase;
 
 const musicMock: ICreateMusicDTO = {
-  name: randomBytes(20).toString(),
-  duration: randomBytes(20).toString(),
-  path_uri: randomBytes(20).toString(),
+  name: randomBytes(20).toString("hex"),
+  duration: randomBytes(20).toString("hex"),
+  path_uri: randomBytes(20).toString("hex"),
 };
 
 describe("Create Music", () => {
