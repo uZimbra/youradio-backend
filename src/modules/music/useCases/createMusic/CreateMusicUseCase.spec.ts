@@ -1,7 +1,8 @@
 import { ICreateMusicDTO } from "@modules/music/dtos/ICreateMusicDTO";
 import { Music } from "@modules/music/infra/typeorm/entities/Music";
-import { MusicRepositoryInMemory } from "@modules/music/infra/typeorm/repositories/in-memory/MusicRepositoryInMemory";
+import { MusicRepositoryInMemory } from "@modules/music/repositories/in-memory/MusicRepositoryInMemory";
 import { IMusicRepository } from "@modules/music/repositories/IMusicRepository";
+import { AppError } from "@shared/errors/AppError";
 import { randomBytes } from "crypto";
 
 import { CreateMusicUseCase } from "./CreateMusicUseCase";
@@ -22,10 +23,17 @@ describe("Create Music", () => {
   });
 
   it("Should be able to create a new music", async () => {
-    const music = await repository.create(musicMock);
+    const music = await useCase.execute(musicMock);
 
     expect(music).toBeInstanceOf(Music);
     expect(music).toHaveProperty("id");
     expect(music.name).toBe(musicMock.name);
+  });
+
+  it("Should not to be able to create a new music with same name", () => {
+    expect(async () => {
+      await useCase.execute(musicMock);
+      await useCase.execute(musicMock);
+    }).rejects.toBeInstanceOf(AppError);
   });
 });

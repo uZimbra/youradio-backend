@@ -1,11 +1,11 @@
-import { ICreateMusicDTO } from "@modules/music/dtos/ICreateMusicDTO";
-import { Music } from "@modules/music/infra/typeorm/entities/Music";
-import { MusicRepositoryInMemory } from "@modules/music/infra/typeorm/repositories/in-memory/MusicRepositoryInMemory";
-import { IMusicRepository } from "@modules/music/repositories/IMusicRepository";
-import { randomBytes } from "crypto";
+import { ICreateMusicDTO } from '@modules/music/dtos/ICreateMusicDTO';
+import { Music } from '@modules/music/infra/typeorm/entities/Music';
+import { MusicRepositoryInMemory } from '@modules/music/repositories/in-memory/MusicRepositoryInMemory';
+import { IMusicRepository } from '@modules/music/repositories/IMusicRepository';
+import { randomBytes } from 'crypto';
 
-import { CreateMusicUseCase } from "../createMusic/CreateMusicUseCase";
-import { ListMusicsUseCase } from "./ListMusicsUseCase";
+import { CreateMusicUseCase } from '../createMusic/CreateMusicUseCase';
+import { ListMusicsUseCase } from './ListMusicsUseCase';
 
 let repository: IMusicRepository;
 let createMusicUseCase: CreateMusicUseCase;
@@ -27,10 +27,10 @@ describe("List Musics", () => {
   });
 
   it("Should be able to list musics", async () => {
-    await repository.create(musicMockFactory());
-    await repository.create(musicMockFactory());
+    await createMusicUseCase.execute(musicMockFactory());
+    await createMusicUseCase.execute(musicMockFactory());
 
-    const musics = await repository.listAll();
+    const musics = await listMusicsUseCase.execute();
 
     expect(musics.length).toBeGreaterThan(1);
     expect(musics[0]).toBeInstanceOf(Music);
