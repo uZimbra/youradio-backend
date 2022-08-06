@@ -17,7 +17,7 @@ class MusicRepository implements IMusicRepository {
     return this.repository.find();
   }
 
-  find(id: string): Promise<Music> {
+  findById(id: string): Promise<Music> {
     return this.repository.findOne({ where: { id } });
   }
 

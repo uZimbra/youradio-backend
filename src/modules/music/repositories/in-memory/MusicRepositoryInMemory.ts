@@ -2,7 +2,7 @@ import { ICreateMusicDTO } from "@modules/music/dtos/ICreateMusicDTO";
 import { IMusicRepository } from "@modules/music/repositories/IMusicRepository";
 import { randomUUID } from "crypto";
 
-import { Music } from "../../entities/Music";
+import { Music } from "../../infra/typeorm/entities/Music";
 
 class MusicRepositoryInMemory implements IMusicRepository {
   private musics: Array<Music> = [];
@@ -25,12 +25,12 @@ class MusicRepositoryInMemory implements IMusicRepository {
     return this.musics;
   }
 
-  find(id: string): Promise<Music> {
-    throw new Error("Method not implemented.");
+  async findById(id: string): Promise<Music> {
+    return this.musics.find((music) => music.id === id);
   }
 
-  findByName(name: string): Promise<Music> {
-    throw new Error("Method not implemented.");
+  async findByName(name: string): Promise<Music> {
+    return this.musics.find((music) => music.name === name);
   }
 }
 
