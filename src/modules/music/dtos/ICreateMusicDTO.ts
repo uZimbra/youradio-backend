@@ -1,7 +1,8 @@
 interface ICreateMusicDTO {
   name: string;
   duration: string;
-  path_uri: string;
+  uri: string;
+  cover_uri: string;
 }
 
 export { ICreateMusicDTO };

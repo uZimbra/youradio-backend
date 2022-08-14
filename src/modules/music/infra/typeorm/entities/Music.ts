@@ -14,10 +14,13 @@ class Music {
   name!: string;
 
   @Column()
-  duration!: string;
+  duration!: number;
 
   @Column()
-  path_uri!: string;
+  uri!: string;
+
+  @Column()
+  cover_uri!: string;
 
   @CreateDateColumn()
   created_at!: Date;

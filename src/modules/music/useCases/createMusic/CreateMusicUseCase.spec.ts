@@ -13,7 +13,8 @@ let useCase: CreateMusicUseCase;
 const musicMock: ICreateMusicDTO = {
   name: randomBytes(20).toString("hex"),
   duration: randomBytes(20).toString("hex"),
-  path_uri: randomBytes(20).toString("hex"),
+  uri: randomBytes(20).toString("hex"),
+  cover_uri: randomBytes(20).toString("hex"),
 };
 
 describe("Create Music", () => {
@@ -27,7 +28,11 @@ describe("Create Music", () => {
 
     expect(music).toBeInstanceOf(Music);
     expect(music).toHaveProperty("id");
+    expect(music).toHaveProperty("created_at");
     expect(music.name).toBe(musicMock.name);
+    expect(music.duration).toBe(musicMock.duration);
+    expect(music.uri).toBe(musicMock.uri);
+    expect(music.cover_uri).toBe(musicMock.cover_uri);
   });
 
   it("Should not to be able to create a new music with same name", () => {
