@@ -5,7 +5,11 @@ import { NextFunction, Request, Response } from "express";
 class AsyncErrorHandler {
   handle(err: Error, _: Request, response: Response, _next: NextFunction) {
     if (err instanceof AppError) {
-      return response.status(err.statusCode).json({ message: err.message });
+      return response.status(err.statusCode).json({
+        status: "error",
+        message: err.message,
+        code: err.statusCode,
+      });
     }
 
     logger.error(err.message);

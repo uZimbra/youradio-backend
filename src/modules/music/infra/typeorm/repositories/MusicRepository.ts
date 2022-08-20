@@ -1,11 +1,12 @@
 import { ICreateMusicDTO } from "@modules/music/dtos/ICreateMusicDTO";
 import { IMusicRepository } from "@modules/music/repositories/IMusicRepository";
+import { AppDataSource } from "@shared/infra/typeorm";
 import { Repository } from "typeorm";
 
 import { Music } from "../entities/Music";
 
 class MusicRepository implements IMusicRepository {
-  constructor(private repository: Repository<Music>) {}
+  private repository: Repository<Music> = AppDataSource.getRepository(Music);
 
   create(data: ICreateMusicDTO): Promise<Music> {
     const music = this.repository.create(data);

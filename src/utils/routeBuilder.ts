@@ -1,5 +1,5 @@
-const routeBuilder = (routeName: string): string => {
-  return `/v1/${routeName}`;
+const routeBuilder = (routeVersion: string, routeName: string): string => {
+  return `/${routeVersion}/${routeName}`;
 };
 
 export { routeBuilder };

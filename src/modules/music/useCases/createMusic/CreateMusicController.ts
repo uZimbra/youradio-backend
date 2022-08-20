@@ -5,11 +5,11 @@ import { CreateMusicUseCase } from "./CreateMusicUseCase";
 
 class CreateMusicController {
   async handle(request: Request, response: Response): Promise<Response> {
-    const { name, duration, path_uri } = request.body;
+    const { name, duration, uri, cover_uri } = request.body;
 
     const useCase = container.resolve(CreateMusicUseCase);
 
-    const createdMusic = await useCase.execute({ name, duration, path_uri });
+    const createdMusic = await useCase.execute({ name, duration, uri, cover_uri });
 
     return response.status(200).json(createdMusic);
   }

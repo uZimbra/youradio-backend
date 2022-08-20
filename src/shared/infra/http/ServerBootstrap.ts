@@ -13,7 +13,7 @@ const asyncErrorHandler = new AsyncErrorHandler();
 class ServerBootstrap {
   public app = express();
 
-  constructor(private port: number) {
+  constructor(private port: number = 3333) {
     this.app.use(express.json());
     this.app.use(router);
     this.app.use(asyncErrorHandler.handle);

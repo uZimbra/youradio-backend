@@ -5,6 +5,6 @@ import { musicRoutes } from "./music.routes";
 
 const router = Router();
 
-router.use(routeBuilder("music"), musicRoutes);
+router.use(routeBuilder("v1", "music"), musicRoutes);
 
 export { router };
