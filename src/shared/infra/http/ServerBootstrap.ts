@@ -3,6 +3,7 @@ import "@shared/infra/typeorm";
 import "express-async-errors";
 
 import { logger } from "@utils/logger";
+import cors from "cors";
 import express from "express";
 
 import { AsyncErrorHandler } from "./handler/AsyncErrorHandler";
@@ -15,6 +16,7 @@ class ServerBootstrap {
 
   constructor(private port: number = 3333) {
     this.app.use(express.json());
+    this.app.use(cors());
     this.app.use(router);
     this.app.use(asyncErrorHandler.handle);
 
