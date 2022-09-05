@@ -8,7 +8,8 @@
     "dev": "tsnd -r tsconfig-paths/register --inspect --ignore-watch node_modules --transpile-only src/server.ts",
     "dev:docker": "docker-compose up youradio",
     "build": "tsc --build",
-    "test": "jest"
+    "test": "jest",
+    "test:coverage": "LOG_DISABLE=true NODE_OPTIONS='--experimental-vm-modules --no-warnings' jest --no-cache --coverage"
   },
   "dependencies": {
     "aws-sdk": "^2.1209.0",

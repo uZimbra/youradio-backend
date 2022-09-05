@@ -32,7 +32,7 @@ class CreateStreamUseCase {
     };
 
     const params = {
-      Bucket: process.env.AWS_S3_BUCKET,
+      Bucket: process.env.AWS_S3_MUSIC_BUCKET,
       Key: music.musicKey,
     };
 

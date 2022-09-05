@@ -1,6 +1,6 @@
 interface ICreateMusicDTO {
   name: string;
-  coverKey: string;
+  coverUri: string;
   musicKey: string;
   duration: number;
   type: string;

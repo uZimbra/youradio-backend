@@ -22,7 +22,7 @@ async function getMusicDuration(musicPath: string): Promise<number> {
     return Promise.reject();
   }
 
-  return Math.ceil(Number(success.toString()));
+  return Math.floor(Number(success.toString()));
 }
 
 export { getMusicDuration };

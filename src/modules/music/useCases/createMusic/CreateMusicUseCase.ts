@@ -3,7 +3,7 @@ import { Music } from "@modules/music/infra/typeorm/entities/Music";
 import { IMusicRepository } from "@modules/music/repositories/IMusicRepository";
 import { AppError } from "@shared/errors/AppError";
 import { getMusicDuration } from "@utils/getMusicDurations";
-import { uploadFile } from "@utils/uploadFile";
+import { uploadFileToS3 } from "@utils/uploadFileToS3";
 import { inject, injectable } from "tsyringe";
 
 type Request = {
@@ -28,14 +28,24 @@ class CreateMusicUseCase {
 
     const duration = await getMusicDuration(music.path);
 
-    await uploadFile(music.filename, music.path, music.mimetype);
+    await uploadFileToS3(
+      music.filename,
+      music.path,
+      music.mimetype,
+      process.env.AWS_S3_MUSIC_BUCKET
+    );
 
-    await uploadFile(cover.filename, cover.path, cover.mimetype);
+    const coverUri = await uploadFileToS3(
+      cover.filename,
+      cover.path,
+      cover.mimetype,
+      process.env.AWS_S3_COVER_BUCKET
+    );
 
     const musicToSave = {
       name,
       duration,
-      coverKey: cover.filename,
+      coverUri,
       musicKey: music.filename,
       size: music.size,
       type: music.mimetype,

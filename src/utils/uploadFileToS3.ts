@@ -3,17 +3,18 @@ import { readFileSync, unlink } from "fs";
 
 import { logger } from "./logger";
 
-async function uploadFile(
+async function uploadFileToS3(
   fileName: string,
   filePath: string,
-  mimetype: string
+  mimetype: string,
+  bucket: string
 ): Promise<string> {
   const s3 = new S3();
 
   const file = readFileSync(filePath);
 
   const params: S3.PutObjectRequest = {
-    Bucket: process.env.AWS_S3_BUCKET,
+    Bucket: bucket,
     Key: fileName,
     Body: file,
     ContentType: mimetype,
@@ -30,4 +31,4 @@ async function uploadFile(
   return Location;
 }
 
-export { uploadFile };
+export { uploadFileToS3 };

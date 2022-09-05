@@ -17,7 +17,7 @@ class Music {
   duration!: number;
 
   @Column()
-  coverKey!: string;
+  coverUri!: string;
 
   @Column()
   musicKey!: string;
@@ -29,7 +29,7 @@ class Music {
   type!: string;
 
   @CreateDateColumn()
-  created_at!: Date;
+  createdAt!: Date;
 }
 
 export { Music };
