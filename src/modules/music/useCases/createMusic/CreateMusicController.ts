@@ -4,12 +4,19 @@ import { container } from "tsyringe";
 import { CreateMusicUseCase } from "./CreateMusicUseCase";
 
 class CreateMusicController {
-  async handle(request: Request, response: Response): Promise<Response> {
-    const { name, duration, uri, cover_uri } = request.body;
+  static async handle(request: Request, response: Response): Promise<Response> {
+    const { name } = request.body;
+
+    const music = request.files["file"][0];
+    const cover = request.files["cover"][0];
 
     const useCase = container.resolve(CreateMusicUseCase);
 
-    const createdMusic = await useCase.execute({ name, duration, uri, cover_uri });
+    const createdMusic = await useCase.execute({
+      music,
+      cover,
+      name,
+    });
 
     return response.status(200).json(createdMusic);
   }

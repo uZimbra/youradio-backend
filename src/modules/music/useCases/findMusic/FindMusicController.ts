@@ -4,7 +4,7 @@ import { container } from "tsyringe";
 import { FindMusicUseCase } from "./FindMusicUseCase";
 
 class FindMusicController {
-  async handle(request: Request, response: Response): Promise<Response> {
+  static async handle(request: Request, response: Response): Promise<Response> {
     const { id } = request.params;
 
     const useCase = container.resolve(FindMusicUseCase);

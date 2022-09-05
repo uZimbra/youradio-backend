@@ -17,10 +17,16 @@ class Music {
   duration!: number;
 
   @Column()
-  uri!: string;
+  coverKey!: string;
 
   @Column()
-  cover_uri!: string;
+  musicKey!: string;
+
+  @Column()
+  size!: number;
+
+  @Column()
+  type!: string;
 
   @CreateDateColumn()
   created_at!: Date;

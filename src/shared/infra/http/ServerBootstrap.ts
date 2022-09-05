@@ -1,4 +1,8 @@
+import * as dotenv from "dotenv";
+dotenv.config();
+
 import "@shared/container";
+import "@shared/infra/aws";
 import "@shared/infra/typeorm";
 import "express-async-errors";
 
@@ -15,6 +19,7 @@ class ServerBootstrap {
   public app = express();
 
   constructor(private port: number = 3333) {
+    this.app.use(express.static("public"));
     this.app.use(express.json());
     this.app.use(cors());
     this.app.use(router);

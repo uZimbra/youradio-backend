@@ -1,8 +1,10 @@
 interface ICreateMusicDTO {
   name: string;
+  coverKey: string;
+  musicKey: string;
   duration: number;
-  uri: string;
-  cover_uri: string;
+  type: string;
+  size: number;
 }
 
 export { ICreateMusicDTO };

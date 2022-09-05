@@ -4,7 +4,7 @@ import { container } from "tsyringe";
 import { ListMusicsUseCase } from "./ListMusicsUseCase";
 
 class ListMusicsController {
-  async handle(_: Request, response: Response): Promise<Response> {
+  static async handle(_: Request, response: Response): Promise<Response> {
     const useCase = container.resolve(ListMusicsUseCase);
 
     const musics = await useCase.execute();
