@@ -1,8 +1,7 @@
 import { ICreateMusicDTO } from "@modules/music/dtos/ICreateMusicDTO";
+import { Music } from "@modules/music/infra/typeorm/entities/Music";
 import { IMusicRepository } from "@modules/music/repositories/IMusicRepository";
 import { randomUUID } from "crypto";
-
-import { Music } from "../../infra/typeorm/entities/Music";
 
 class MusicRepositoryInMemory implements IMusicRepository {
   private musics: Array<Music> = [];
@@ -12,7 +11,7 @@ class MusicRepositoryInMemory implements IMusicRepository {
 
     Object.assign(music, {
       id: randomUUID(),
-      created_at: Date.now(),
+      createdAt: Date.now(),
       ...data,
     });
 

@@ -1,28 +1,57 @@
-import { ICreateMusicDTO } from '@modules/music/dtos/ICreateMusicDTO';
-import { Music } from '@modules/music/infra/typeorm/entities/Music';
-import { MusicRepositoryInMemory } from '@modules/music/repositories/in-memory/MusicRepositoryInMemory';
-import { IMusicRepository } from '@modules/music/repositories/IMusicRepository';
-import { randomBytes } from 'crypto';
-
-import { CreateMusicUseCase } from '../createMusic/CreateMusicUseCase';
-import { ListMusicsUseCase } from './ListMusicsUseCase';
+import { Music } from "@modules/music/infra/typeorm/entities/Music";
+import { IMusicRepository } from "@modules/music/repositories/IMusicRepository";
+import { MusicRepositoryInMemory } from "@modules/music/repositories/in-memory/MusicRepositoryInMemory";
+import { StorageRepositoryInMemory } from "@modules/music/repositories/in-memory/StorageRepositoryInMemory";
+import { IStorageRepository } from "@modules/music/repositories/IStorageRepository";
+import { CreateMusicUseCase } from "@modules/music/useCases/createMusic/CreateMusicUseCase";
+import { ListMusicsUseCase } from "@modules/music/useCases/listMusics/ListMusicsUseCase";
+import { randomBytes } from "crypto";
+import { join } from "path";
 
 let repository: IMusicRepository;
+let storage: IStorageRepository;
 let createMusicUseCase: CreateMusicUseCase;
 let listMusicsUseCase: ListMusicsUseCase;
 
-function musicMockFactory(): ICreateMusicDTO {
+type Request = {
+  music: Express.Multer.File;
+  cover: Express.Multer.File;
+  name: string;
+};
+
+function musicMockFactory(): Request {
+  const musicPath = join(
+    __dirname,
+    "..",
+    "..",
+    "..",
+    "..",
+    "..",
+    "mocks",
+    "audio mock.mp3"
+  );
+
   return {
+    music: {
+      filename: randomBytes(20).toString("hex"),
+      path: musicPath,
+      mimetype: randomBytes(20).toString("hex"),
+      size: Math.floor(Math.random() * 5000),
+    } as Express.Multer.File,
+    cover: {
+      filename: randomBytes(20).toString("hex"),
+      path: randomBytes(20).toString("hex"),
+      mimetype: randomBytes(20).toString("hex"),
+    } as Express.Multer.File,
     name: randomBytes(20).toString("hex"),
-    duration: randomBytes(20).toString("hex"),
-    path_uri: randomBytes(20).toString("hex"),
   };
 }
 
 describe("List Musics", () => {
   beforeEach(() => {
     repository = new MusicRepositoryInMemory();
-    createMusicUseCase = new CreateMusicUseCase(repository);
+    storage = new StorageRepositoryInMemory();
+    createMusicUseCase = new CreateMusicUseCase(repository, storage);
     listMusicsUseCase = new ListMusicsUseCase(repository);
   });
 

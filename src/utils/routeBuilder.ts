@@ -1,5 +1,5 @@
 const routeBuilder = (routeVersion: string, routeName: string): string => {
-  return `/${routeVersion}/${routeName}`;
+  return `/api/${routeVersion}/${routeName}`;
 };
 
 export { routeBuilder };

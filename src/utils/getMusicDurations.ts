@@ -1,3 +1,4 @@
+import { logger } from "@utils/logger";
 import childProcess from "child_process";
 import { once } from "events";
 
@@ -19,7 +20,10 @@ async function getMusicDuration(musicPath: string): Promise<number> {
   const [success, error] = [stdout, stderr].map((stream) => stream.read());
 
   if (error) {
-    return Promise.reject();
+    logger.error(
+      `Error when trying to catch music duration: ${error.toString()}`
+    );
+    throw new Error("Internal Error");
   }
 
   return Math.floor(Number(success.toString()));

@@ -1,12 +1,12 @@
 import { IMusicRepository } from "@modules/music/repositories/IMusicRepository";
+import { IStorageRepository } from "@modules/music/repositories/IStorageRepository";
 import { AppError } from "@shared/errors/AppError";
-import { S3 } from "aws-sdk";
-import { IncomingHttpHeaders } from "http";
 import { Readable } from "stream";
 import { inject, injectable } from "tsyringe";
 
 type Response = {
-  headers: IncomingHttpHeaders;
+  audioMimetype: string;
+  audioSize: string;
   stream: Readable;
 };
 
@@ -14,31 +14,24 @@ type Response = {
 class CreateStreamUseCase {
   constructor(
     @inject("MusicRepository")
-    private repository: IMusicRepository
+    private repository: IMusicRepository,
+    @inject("StorageRepository")
+    private storage: IStorageRepository
   ) {}
 
   async execute(musicId: string): Promise<Response> {
-    const s3 = new S3();
     const music = await this.repository.findById(musicId);
 
     if (!music) {
       throw new AppError("Music with this id does not exists!", 404);
     }
 
-    const headers = {
-      "Accept-Ranges": "bytes",
-      "Content-Type": music.type,
-      "Content-Length": music.size.toString(),
-    };
-
-    const params = {
-      Bucket: process.env.AWS_S3_MUSIC_BUCKET,
-      Key: music.musicKey,
-    };
+    const stream = this.storage.getObject(music.musicKey);
 
     return {
-      headers,
-      stream: s3.getObject(params).createReadStream(),
+      audioSize: music.size.toString(),
+      audioMimetype: music.type,
+      stream,
     };
   }
 }

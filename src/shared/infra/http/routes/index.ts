@@ -1,10 +1,9 @@
+import { musicRoutes } from "@shared/infra/http/routes/music.routes";
 import { routeBuilder } from "@utils/routeBuilder";
 import { Router } from "express";
 
-import { musicRoutes } from "./music.routes";
-
 const router = Router();
 
-router.use(routeBuilder("v1", "music"), musicRoutes);
+router.use(routeBuilder("v1", "musics"), musicRoutes);
 
 export { router };

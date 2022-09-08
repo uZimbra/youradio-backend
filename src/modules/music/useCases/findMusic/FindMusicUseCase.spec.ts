@@ -1,26 +1,56 @@
-import { ICreateMusicDTO } from "@modules/music/dtos/ICreateMusicDTO";
 import { Music } from "@modules/music/infra/typeorm/entities/Music";
 import { IMusicRepository } from "@modules/music/repositories/IMusicRepository";
 import { MusicRepositoryInMemory } from "@modules/music/repositories/in-memory/MusicRepositoryInMemory";
+import { StorageRepositoryInMemory } from "@modules/music/repositories/in-memory/StorageRepositoryInMemory";
+import { IStorageRepository } from "@modules/music/repositories/IStorageRepository";
+import { CreateMusicUseCase } from "@modules/music/useCases/createMusic/CreateMusicUseCase";
+import { FindMusicUseCase } from "@modules/music/useCases/findMusic/FindMusicUseCase";
+import { AppError } from "@shared/errors/AppError";
 import { randomBytes } from "crypto";
-
-import { CreateMusicUseCase } from "../createMusic/CreateMusicUseCase";
-import { FindMusicUseCase } from "./FindMusicUseCase";
+import { join } from "path";
 
 let repository: IMusicRepository;
+let storage: IStorageRepository;
 let createMusicUseCase: CreateMusicUseCase;
 let findMusicUseCase: FindMusicUseCase;
 
-const musicMock: ICreateMusicDTO = {
+type Request = {
+  music: Express.Multer.File;
+  cover: Express.Multer.File;
+  name: string;
+};
+
+const musicPath = join(
+  __dirname,
+  "..",
+  "..",
+  "..",
+  "..",
+  "..",
+  "mocks",
+  "audio mock.mp3"
+);
+
+const musicMock: Request = {
+  music: {
+    filename: randomBytes(20).toString("hex"),
+    path: musicPath,
+    size: Math.floor(Math.random() * 5000),
+    mimetype: randomBytes(20).toString("hex"),
+  } as Express.Multer.File,
+  cover: {
+    filename: randomBytes(20).toString("hex"),
+    path: randomBytes(20).toString("hex"),
+    mimetype: randomBytes(20).toString("hex"),
+  } as Express.Multer.File,
   name: randomBytes(20).toString("hex"),
-  duration: randomBytes(20).toString("hex"),
-  path_uri: randomBytes(20).toString("hex"),
 };
 
 describe("Find Music", () => {
   beforeEach(() => {
     repository = new MusicRepositoryInMemory();
-    createMusicUseCase = new CreateMusicUseCase(repository);
+    storage = new StorageRepositoryInMemory();
+    createMusicUseCase = new CreateMusicUseCase(repository, storage);
     findMusicUseCase = new FindMusicUseCase(repository);
   });
 
@@ -31,5 +61,11 @@ describe("Find Music", () => {
 
     expect(foundMusic).toBeInstanceOf(Music);
     expect(foundMusic).toHaveProperty("id");
+  });
+
+  it("Should not to be able to find a music by a given id", async () => {
+    await findMusicUseCase.execute("invalid music id").catch((err) => {
+      expect(err).toBeInstanceOf(AppError);
+    });
   });
 });
