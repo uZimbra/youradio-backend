@@ -2,12 +2,12 @@ FROM node:17-slim
 
 WORKDIR /youradio/
 
-COPY package.json yarn.lock /youradio/
+COPY package.json package-lock.json /youradio/
 
-RUN yarn --silent
+RUN npm i --silent
 
 COPY . .
 
 USER node
 
-CMD yarn dev
+CMD npm run dev
