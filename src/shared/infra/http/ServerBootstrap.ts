@@ -13,7 +13,6 @@ import express from "express";
 import { AsyncErrorHandler } from "./handler/AsyncErrorHandler";
 import { router } from "./routes";
 
-const asyncErrorHandler = new AsyncErrorHandler();
 
 class ServerBootstrap {
   public app = express();
@@ -23,7 +22,7 @@ class ServerBootstrap {
     this.app.use(express.json());
     this.app.use(cors());
     this.app.use(router);
-    this.app.use(asyncErrorHandler.handle);
+    this.app.use(AsyncErrorHandler.handle);
 
     this.app.listen(port);
   }
