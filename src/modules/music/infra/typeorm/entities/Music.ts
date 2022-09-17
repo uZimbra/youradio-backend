@@ -1,3 +1,4 @@
+import { IMusicEntity } from "@shared/domains/IMusicEntity";
 import {
   Column,
   CreateDateColumn,
@@ -6,7 +7,7 @@ import {
 } from "typeorm";
 
 @Entity()
-class Music {
+class Music implements IMusicEntity {
   @PrimaryGeneratedColumn("uuid")
   id!: string;
 
