@@ -61,6 +61,7 @@ describe("Find Music", () => {
 
     expect(foundMusic).toBeInstanceOf(Music);
     expect(foundMusic).toHaveProperty("id");
+    expect(foundMusic.id).toBe(createdMusic.id);
   });
 
   it("Should not to be able to find a music by a given id", async () => {
