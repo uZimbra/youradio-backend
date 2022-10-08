@@ -1,5 +1,8 @@
 FROM node:17-slim
 
+RUN apt-get update \
+ && apt-get install -y ffmpeg
+
 WORKDIR /youradio/
 
 COPY package.json package-lock.json /youradio/

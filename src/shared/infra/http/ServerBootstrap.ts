@@ -18,7 +18,7 @@ class ServerBootstrap {
   public app = express();
 
   constructor(private port: number = 3333) {
-    this.app.use(express.static("public"));
+    this.app.use(express.static("tmp"));
     this.app.use(express.json());
     this.app.use(cors());
     this.app.use(router);

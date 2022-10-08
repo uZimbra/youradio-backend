@@ -37,7 +37,7 @@ class CreateMusicUseCase {
       bucket: process.env.AWS_S3_MUSIC_BUCKET,
     });
 
-    const coverUri = await this.storage.saveObject({
+    await this.storage.saveObject({
       fileName: cover.filename,
       filePath: cover.path,
       mimetype: cover.mimetype,
@@ -47,7 +47,7 @@ class CreateMusicUseCase {
     return this.repository.create({
       name,
       duration,
-      coverUri,
+      coverUri: cover.filename,
       musicKey: music.filename,
       size: music.size,
       type: music.mimetype,

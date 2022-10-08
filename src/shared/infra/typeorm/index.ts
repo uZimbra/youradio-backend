@@ -5,12 +5,8 @@ import path from "path";
 import { DataSource } from "typeorm";
 
 const AppDataSource = new DataSource({
-  type: "postgres",
-  host: process.env.AWS_RDS_DB_HOST,
-  port: Number(process.env.AWS_RDS_DB_PORT),
-  username: process.env.AWS_RDS_DB_USER,
-  password: process.env.AWS_RDS_DB_PASSWORD,
-  database: process.env.AWS_RDS_DB_DATABASE,
+  type: "sqlite",
+  database: path.join("./src/database/database.sqlite"),
   synchronize: true,
   entities: [
     path.join(
